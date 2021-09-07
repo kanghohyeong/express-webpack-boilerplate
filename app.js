@@ -8,10 +8,12 @@ const webpackDevMiddleware = require("webpack-dev-middleware");
 // var indexRouter = require("./routes/index");
 
 const app = express();
-const config = require("./webpack.config.js");
+const config = require("./webpack.dev.js");
 const compiler = webpack(config);
 
-app.use(webpackDevMiddleware(compiler, { publicPath: config.output.publicPath }));
+if (process.env.NODE_ENV === "development") {
+  app.use(webpackDevMiddleware(compiler, { publicPath: config.output.publicPath }));
+}
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
